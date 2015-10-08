@@ -139,6 +139,10 @@ namespace DBLabs
          *              1           Teacher staffing added
          *              Any other   Error
          */
+        //public override int addTeacher(string pnr, string cc, int year, int period, int hours)
+        //{
+        //    return 1;
+        //}
         public override int addStaff(string pnr, string cc, int year, int period, int hours)
         {
             return 1;
@@ -213,6 +217,9 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+
+            //string query = "SELECT * FROM STUDENTDATA";
+
             DataTable dt = new DataTable();
             dt.Columns.Add("StudentID");
             dt.Columns.Add("FirstName");
