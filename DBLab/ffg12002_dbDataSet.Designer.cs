@@ -775,7 +775,7 @@ namespace DBLab.ffg12002_dbDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::DBLab.Properties.Settings.Default.ffg12002_dbConnectionString;
+            this._connection.ConnectionString = global::DBLab.Properties.Settings.Default.Connectionstring;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -6,20 +6,21 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Windows.Forms;
 
+
 namespace DBLabs
 {
     public class DBConnection : DBLabsDLL.DBConnectionBase
     {
         public SqlConnection SQLConnection;
         public SqlCommand SQLCmd;
-        public string Connectionstring;
+        public string Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
         ///*
         // * The constructor
         // */
         public DBConnection()
         {
             Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
-            SQLConnection = new SqlConnection("Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;");
+            SQLConnection = new SqlConnection(Connectionstring);
             SQLCmd = new SqlCommand("addStudent", SQLConnection);
             SQLCmd.CommandType = CommandType.StoredProcedure;
         }
@@ -237,13 +238,13 @@ namespace DBLabs
             //dt.Rows.Add("ssn11001", "Stud", "Studman", "Male", "StudentRoad 1", "773 33", "1985-11-20 00:00:00", "Program Student", "Västerås", "Sweden", "Datavetenskapliga programmet", 2011, 15);
 
             string query = "select * from STUDENTDATA";
-            SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
             DataTable dt = new DataTable();
 
             using (SQLConnection = new SqlConnection(Connectionstring))
             {
                 try
                 {
+                    SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
                     SQLConnection.Open();
                     da.Fill(dt);
                 }
@@ -252,7 +253,6 @@ namespace DBLabs
                     MessageBox.Show(er.Message);
                 }
             }
-
 
             return dt;
         }
@@ -319,15 +319,14 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
-
             string query = "select * from COURSEDATA";
-            SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
             DataTable dt = new DataTable();
 
             using (SQLConnection = new SqlConnection(Connectionstring))
             {
                 try
                 {
+                    SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
                     SQLConnection.Open();
                     da.Fill(dt);
                 }

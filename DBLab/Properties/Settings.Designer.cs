@@ -28,9 +28,9 @@ namespace DBLab.Properties {
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=www3.idt.mdh.se;Initial Catalog=ffg12002_db;User ID=ffg12002;Password" +
             "=Frenning123")]
-        public string ffg12002_dbConnectionString {
+        public string Connectionstring {
             get {
-                return ((string)(this["ffg12002_dbConnectionString"]));
+                return ((string)(this["Connectionstring"]));
             }
         }
     }
