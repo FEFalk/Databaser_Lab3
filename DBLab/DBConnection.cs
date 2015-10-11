@@ -220,21 +220,40 @@ namespace DBLabs
 
             //string query = "SELECT * FROM STUDENTDATA";
 
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("StudentID");
+            //dt.Columns.Add("FirstName");
+            //dt.Columns.Add("LastName");
+            //dt.Columns.Add("Gender");
+            //dt.Columns.Add("Streetadress");
+            //dt.Columns.Add("ZipCode");
+            //dt.Columns.Add("Birthdate");
+            //dt.Columns.Add("StudentType");
+            //dt.Columns.Add("City");
+            //dt.Columns.Add("Country");
+            //dt.Columns.Add("program");
+            //dt.Columns.Add("PgmStartYear");
+            //dt.Columns.Add("credits");
+            //dt.Rows.Add("ssn11001", "Stud", "Studman", "Male", "StudentRoad 1", "773 33", "1985-11-20 00:00:00", "Program Student", "Västerås", "Sweden", "Datavetenskapliga programmet", 2011, 15);
+
+            string query = "select * from STUDENTDATA";
+            SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
             DataTable dt = new DataTable();
-            dt.Columns.Add("StudentID");
-            dt.Columns.Add("FirstName");
-            dt.Columns.Add("LastName");
-            dt.Columns.Add("Gender");
-            dt.Columns.Add("Streetadress");
-            dt.Columns.Add("ZipCode");
-            dt.Columns.Add("Birthdate");
-            dt.Columns.Add("StudentType");
-            dt.Columns.Add("City");
-            dt.Columns.Add("Country");
-            dt.Columns.Add("program");
-            dt.Columns.Add("PgmStartYear");
-            dt.Columns.Add("credits");
-            dt.Rows.Add("ssn11001", "Stud", "Studman", "Male", "StudentRoad 1", "773 33", "1985-11-20 00:00:00", "Program Student", "Västerås", "Sweden", "Datavetenskapliga programmet", 2011, 15);
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
+
             return dt;
         }
 
@@ -300,13 +319,23 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+
+            string query = "select * from COURSEDATA";
+            SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
             DataTable dt = new DataTable();
-            dt.Columns.Add("coursecode");
-            dt.Columns.Add("name");
-            dt.Columns.Add("credits");
-            dt.Columns.Add("courseresponsible");
-            dt.Columns.Add("examiner");
-            dt.Rows.Add("DVA214", "Databaser", 7.5, "111111-1111", "222222-2222");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
             return dt;
         }
         /*
@@ -359,7 +388,31 @@ namespace DBLabs
         public override DataTable getStudentRecord(string studId)
         {
             //Dummy code - Remove!
+            //DataTable dt = new DataTable();
+
+
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getStudentRecord", SQLConnection);
+                    SQLCmd.Parameters.Add(new SqlParameter("@studentID", studId));
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
+
             return dt;
         }
 
@@ -425,10 +478,34 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("Type");
+            //dt.Columns.Add("Number");
+            //dt.Rows.Add("Home", "021-121212");
+
+
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
-            dt.Columns.Add("Type");
-            dt.Columns.Add("Number");
-            dt.Rows.Add("Home", "021-121212");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getStudentPhoneNo", SQLConnection);
+                    SQLCmd.Parameters.Add(new SqlParameter("@studentID", studId));
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
+
             return dt;
         }
 

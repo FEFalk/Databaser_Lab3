@@ -13,7 +13,7 @@ namespace DBLabs
 {
     public partial class AddStudentControl : UserControl
     {
-        private DBConnection dbconn;
+        private DBConnection dbconn= new DBConnection();
 
         public AddStudentControl()
         {
@@ -47,6 +47,7 @@ namespace DBLabs
              * Example: Population of Comboboxes and gridviews etc.
              * 
              */
+            dbconn = new DBConnection();
             dataGridView1.Columns.Add("Type", "Type");
             dataGridView1.Columns.Add("Number", "Number");
             dataGridView1.Columns.Add("T_ID", "T_ID");
@@ -59,7 +60,7 @@ namespace DBLabs
             {
                 try
                 {
-                    string query = "select * from Orders";
+                    string query = "select * from StudentType";
                     SqlDataAdapter da = new SqlDataAdapter(query, dbconn.SQLConnection);
                     dbconn.SQLConnection.Open();
                     DataSet ds = new DataSet();
@@ -77,9 +78,10 @@ namespace DBLabs
                     comboBox2.DataSource = ds.Tables["TelType"];
 
                 }
-                catch (Exception)
+                catch (Exception er)
                 {
-                    MessageBox.Show("Error occured!");
+                    
+                    MessageBox.Show(er.Message);
                 }
                 
             }

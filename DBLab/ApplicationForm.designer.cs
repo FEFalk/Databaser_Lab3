@@ -189,7 +189,7 @@
         private System.Windows.Forms.Button ShowStudentButton;
         private System.Windows.Forms.Button AddStudentButton;
         private System.Windows.Forms.Button ShowCourseButton;
-        private AddStudentControl addStudentControl1;
+        private DBLabs.AddStudentControl addStudentControl1;
         private DBLabsDLL.ViewStudentControl viewStudentControl1;
         private DBLabsDLL.StaffGridControl staffGridControl1;
         private DBLabsDLL.ViewCourseControl viewCourseControl1;
