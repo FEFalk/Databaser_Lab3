@@ -60,7 +60,7 @@ namespace DBLabs
             {
                 try
                 {
-                    string query = "select * from StudentType";
+                    string query = "select * from StudentTypes";
                     SqlDataAdapter da = new SqlDataAdapter(query, dbconn.SQLConnection);
                     dbconn.SQLConnection.Open();
                     DataSet ds = new DataSet();

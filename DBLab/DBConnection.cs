@@ -106,6 +106,21 @@ namespace DBLabs
          */
         public override int addPreReq(string cc, string preReqcc)
         {
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    changeProcedure("addCoursePreReq");
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@preReq", SqlDbType.NVarChar).Value = preReqcc;
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+                executeCommand();
+            }
+
             return 1;
         }
 
@@ -123,6 +138,22 @@ namespace DBLabs
          */
         public override int addInstance(string cc, int year, int period)
         {
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    changeProcedure("addCourseInstance");
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+                executeCommand();
+            }
+
             return 1;
         }
 
@@ -146,6 +177,25 @@ namespace DBLabs
         //}
         public override int addStaff(string pnr, string cc, int year, int period, int hours)
         {
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    changeProcedure("addTeacher");
+                    SQLCmd.Parameters.Add("@SSN", SqlDbType.Char).Value = pnr;
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                    SQLCmd.Parameters.Add("@hours", SqlDbType.Int).Value = hours;
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+                executeCommand();
+            }
+
             return 1;
         }
 
@@ -165,6 +215,26 @@ namespace DBLabs
          */
         public override int addLabass(string studid, string cc, int year, int period, int hours, int salary)
         {
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    changeProcedure("addLabass");
+                    SQLCmd.Parameters.Add("@studentID", SqlDbType.Char).Value = studid;
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                    SQLCmd.Parameters.Add("@hours", SqlDbType.Int).Value = hours;
+                    SQLCmd.Parameters.Add("@hourlySalary", SqlDbType.Int).Value = salary;
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+                executeCommand();
+            }
+
             return 1;
         }
 
@@ -325,10 +395,28 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("StudentID");
+            //dt.Columns.Add("fullname");
+            //dt.Rows.Add("ssn11001", "Stud Studman");
+            
             DataTable dt = new DataTable();
-            dt.Columns.Add("StudentID");
-            dt.Columns.Add("fullname");
-            dt.Rows.Add("ssn11001", "Stud Studman");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    string query = "select SSN as StudentID, Firstname+' '+Lastname as fullname from LABASSDATA";
+                    SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
             return dt;
         }
 
