@@ -454,11 +454,34 @@ namespace DBLabs
 
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("year");
+            //dt.Columns.Add("period");
+            //dt.Columns.Add("instance");
+            //dt.Rows.Add(2012, 4, "2012 p4");
+
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
-            dt.Columns.Add("year");
-            dt.Columns.Add("period");
-            dt.Columns.Add("instance");
-            dt.Rows.Add(2012, 4, "2012 p4");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getCourseInstance", SQLConnection);
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
             return dt;
         }
 
