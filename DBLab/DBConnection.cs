@@ -13,7 +13,6 @@ namespace DBLabs
     {
         public SqlConnection SQLConnection;
         public SqlCommand SQLCmd;
-        public SqlCommand SQLCmdCourse;
         public string Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
         ///*
         // * The constructor
@@ -39,7 +38,7 @@ namespace DBLabs
          */
         public override bool login(string username, string password)
         {
-
+           
             return true;
         }
         /*
@@ -62,8 +61,8 @@ namespace DBLabs
                 SQLCmd.ExecuteNonQuery();
             }
         }
-
-
+        
+    
         public bool checkStudentsTablePK(string studentID)
         {
             using (SQLConnection = new SqlConnection(Connectionstring))
@@ -401,7 +400,29 @@ namespace DBLabs
         public override DataTable getCourseStaffing(string cc, string year, string period)
         {
             //Dummy code - Remove!
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getCourseStaffing", SQLConnection);
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
             return dt;
 
         }
@@ -461,10 +482,34 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("Course Code");
+            //dt.Columns.Add("Course Name");
+            //dt.Rows.Add("DVA111", "C# course");
+
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
-            dt.Columns.Add("Course Code");
-            dt.Columns.Add("Course Name");
-            dt.Rows.Add("DVA111", "C# course");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getCoursePreReqs", SQLConnection);
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
+
             return dt;
         }
 
@@ -486,11 +531,34 @@ namespace DBLabs
 
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("year");
+            //dt.Columns.Add("period");
+            //dt.Columns.Add("instance");
+            //dt.Rows.Add(2012, 4, "2012 p4");
+
+            SqlDataAdapter da = new SqlDataAdapter();
             DataTable dt = new DataTable();
-            dt.Columns.Add("year");
-            dt.Columns.Add("period");
-            dt.Columns.Add("instance");
-            dt.Rows.Add(2012, 4, "2012 p4");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("getCourseInstance", SQLConnection);
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
             return dt;
         }
 
