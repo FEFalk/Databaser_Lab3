@@ -13,6 +13,7 @@ namespace DBLabs
     {
         public SqlConnection SQLConnection;
         public SqlCommand SQLCmd;
+        public SqlCommand SQLCmdCourse;
         public string Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
         ///*
         // * The constructor
@@ -38,7 +39,7 @@ namespace DBLabs
          */
         public override bool login(string username, string password)
         {
-           
+
             return true;
         }
         /*
@@ -61,8 +62,8 @@ namespace DBLabs
                 SQLCmd.ExecuteNonQuery();
             }
         }
-        
-    
+
+
         public bool checkStudentsTablePK(string studentID)
         {
             using (SQLConnection = new SqlConnection(Connectionstring))
@@ -184,8 +185,27 @@ namespace DBLabs
          */
         public override int addCourse(string cc, string name, double credits, string responsible)
         {
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SQLCmd = new SqlCommand("addCourse", SQLConnection);
+                    changeProcedure("addCourse");
+                    SQLCmd.Parameters.Add("@CourseID", SqlDbType.VarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@Name", SqlDbType.VarChar).Value = name;
+                    SQLCmd.Parameters.Add("@Points", SqlDbType.Float).Value = credits;
+                    SQLCmd.Parameters.Add("@SSN", SqlDbType.Char).Value = responsible;
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+                executeCommand();
+            }
             return 1;
         }
+
 
 
         /********************************************************************************************
@@ -272,10 +292,22 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            string query = "select * from STAFFDATA";
             DataTable dt = new DataTable();
-            dt.Columns.Add("pnr");
-            dt.Columns.Add("fullname");
-            dt.Rows.Add("111111-1111", "Test Testson");
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }               
+            }
             return dt;
         }
 
