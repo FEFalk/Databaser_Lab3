@@ -470,7 +470,35 @@ namespace DBLabs
         public override int getCourseCost(string cc, int year, int period)
         {
             //Dummy code - Remove!
-            return 10000;
+            SqlDataAdapter da = new SqlDataAdapter();
+            DataTable dt = new DataTable();
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    changeProcedure("getCourseCost");
+                    SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
+                    SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
+                    SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                    int courseCost;
+                    //Om datat vi får tillbaka av proceduren är tomt/null så ska vi inte konvertera det till en int.
+                    if (dt.Rows[0].Field<int?>("CourseCost") != null)
+                    {
+                        courseCost = dt.Rows[0].Field<int>("CourseCost");
+                        return courseCost;
+                    }
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+            return 0;
         }
 
         /*
@@ -545,6 +573,7 @@ namespace DBLabs
 
                     SQLConnection.Open();
                     da.Fill(dt);
+                    dt.Columns.Remove("StudentID");
                 }
                 catch (Exception er)
                 {
