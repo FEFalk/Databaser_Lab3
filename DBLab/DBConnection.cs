@@ -13,16 +13,13 @@ namespace DBLabs
     {
         public SqlConnection SQLConnection;
         public SqlCommand SQLCmd;
-        public string Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
+        public string Connectionstring;
         ///*
         // * The constructor
         // */
         public DBConnection()
         {
-            Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=ffg12002;Password=Frenning123;";
             SQLConnection = new SqlConnection(Connectionstring);
-            SQLCmd = new SqlCommand("addStudent", SQLConnection);
-            SQLCmd.CommandType = CommandType.StoredProcedure;
         }
 
         /*

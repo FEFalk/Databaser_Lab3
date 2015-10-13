@@ -13,7 +13,7 @@ namespace DBLabs
 {
     public partial class AddStudentControl : UserControl
     {
-        private DBConnection dbconn= new DBConnection();
+        private DBConnection dbconn;
 
         public AddStudentControl()
         {
@@ -47,7 +47,7 @@ namespace DBLabs
              * Example: Population of Comboboxes and gridviews etc.
              * 
              */
-            dbconn = new DBConnection();
+            dbconn.changeProcedure("addStudent");
             dataGridView1.Columns.Add("Type", "Type");
             dataGridView1.Columns.Add("Number", "Number");
             dataGridView1.Columns.Add("T_ID", "T_ID");
@@ -199,12 +199,11 @@ namespace DBLabs
 
             foreach (DataGridViewRow item in dataGridView1.Rows)
             {
-                if (item.Cells[0].Value.ToString().Equals(comboBox2.Text))
+                if (item.Cells[1].Value.ToString().Equals(numberTextBox1.Text))
                 {
                     MessageBox.Show("Can't have more than one type of number!");
                     return;
                 }
-                    
             }
             dataGridView1.Rows.Add(comboBox2.Text.ToString(), numberTextBox1.Text.ToString());
         }
