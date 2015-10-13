@@ -146,12 +146,13 @@ namespace DBLabs
                     SQLCmd.Parameters.Add("@courseID", SqlDbType.NVarChar).Value = cc;
                     SQLCmd.Parameters.Add("@year", SqlDbType.Int).Value = year;
                     SQLCmd.Parameters.Add("@period", SqlDbType.Int).Value = period;
+                    executeCommand();
                 }
                 catch (Exception er)
                 {
                     MessageBox.Show(er.Message);
                 }
-                executeCommand();
+                
             }
 
             return 1;
