@@ -38,8 +38,10 @@ namespace DBLabs
          */
         public override bool login(string username, string password)
         {
-           
-            return true;
+            if (username == "ffg12002" && password == "Frenning123")
+                return true;
+            else
+                return false;
         }
         /*
          --------------------------------------------------------------------------------------------
