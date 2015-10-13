@@ -38,6 +38,17 @@ namespace DBLabs
          */
         public override bool login(string username, string password)
         {
+            Connectionstring = "Data Source=www3.idt.mdh.se; Initial Catalog=ffg12002_db;User ID=" + username + ";Password=" + password + ";";
+            try
+            {
+                SQLConnection.ConnectionString = Connectionstring;
+                SQLConnection.Open();
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.Message);
+                return false;
+            }
            
             return true;
         }
