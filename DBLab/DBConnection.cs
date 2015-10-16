@@ -755,9 +755,24 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            
+            
             DataTable dt = new DataTable();
-            dt.Columns.Add("Year");
-            dt.Rows.Add(2000);
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    string query = "select CAST(Year as varchar(6)) as Year from STAFFINGYEARS";
+                    SqlDataAdapter da = new SqlDataAdapter(query, SQLConnection);
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
             return dt;
         }
 
@@ -775,10 +790,52 @@ namespace DBLabs
         {
             //Dummy code - Remove!
             //Please note that you do not use DataTables like this at all when you are using a database!!
+            
             DataTable dt = new DataTable();
-            dt.Columns.Add("StaffingGrid");
-            dt.Rows.Add("All will be revealed in lab 4.. :)");
+            dt.Columns.Add("");
+            dt.Columns.Add("");
+            dt.Columns.Add("");
+            dt.Columns.Add("");
+            dt.Columns.Add("");
+            dt.Columns.Add("");
+
+
+            using (SQLConnection = new SqlConnection(Connectionstring))
+            {
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter();
+                    SQLCmd = new SqlCommand("getStaffingGrid", SQLConnection);
+                    SQLCmd.Parameters.Add("@Year", SqlDbType.Int).Value = year;
+                    SQLCmd.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand = SQLCmd;
+
+                    SQLConnection.Open();
+                    da.Fill(dt);
+                }
+                catch (Exception er)
+                {
+                    MessageBox.Show(er.Message);
+                }
+            }
+
             return dt;
         }
     }
 }
+
+
+
+//                    if (dt.Rows.Count == 0)
+//                    {
+//                        SQLConnection.Close();
+//                        dt = new DataTable();
+//                        string query = "select FirstName, LastName from TEACHERDATA";
+//                        da = new SqlDataAdapter(query, SQLConnection);
+//                        SQLConnection.Open();
+//                        da.Fill(dt);
+//                        dt.Columns.Add("");
+//                        dt.Columns.Add("");
+//                        dt.Columns.Add("");
+//                        dt.Columns.Add("");
+//                    }
